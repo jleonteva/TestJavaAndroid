@@ -46,17 +46,18 @@ public class FirstTest {
         skipButton.click();
         WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
         element_to_init_search.click();
-        //System.out.println("First test run");
+
         WebElement element_to_enter_line = waitForElementPresentByXpath(
                 "//*[contains(@text, 'Search Wikipedia')]",
                 "Cannot find search input",
                 5
         );
         element_to_enter_line.click();
-        WebElement search_text_input = waitForElementPresentById (
+
+        WebElement search_text_input = waitForElementPresentById(
                 "org.wikipedia:id/search_src_text",
                 "Cannot find search text input",
-                5);
+                10);
         search_text_input.sendKeys("Java");
 
 
@@ -80,14 +81,15 @@ public class FirstTest {
                 ExpectedConditions.presenceOfElementLocated(by)
         );
     }
-    private WebElement waitForElementPresentByXpath(String xpath, String error_message)
-    {
 
-        return waitForElementPresentByXpath(xpath, error_message, 5);
-    }
-    private WebElement waitForElementPresentById(String id, String error_message, int i)
+    private WebElement waitForElementPresentById(String id, String error_message, long timeoutInSeconds)
     {
-        return waitForElementPresentById(id, error_message, i);
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        By by = By.id(id);
+        return wait.until(
+                ExpectedConditions.presenceOfElementLocated(by)
+        );
 
     }
 }
